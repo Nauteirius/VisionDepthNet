@@ -2,6 +2,8 @@
 
 The main lesson's goal is to introduce methos of 3D distance estimation using monocular vision. In particular the focus is on recognition of pedestrians using dashcam-like input to assist autonomous vehicles in making velocity reduction decisions.
 
+[Lesson slides](https://docs.google.com/presentation/d/1YlnpXRuLLBvxOmRoW507-AbpEdk_sHhxOFYxKhZmyWk/edit?usp=sharing)
+
 The implemented idea is effectively a pipeline that utilizes YOLO and MiDaS solutions to:
 
 - first: detect and segment parts of image that include pedestrians
