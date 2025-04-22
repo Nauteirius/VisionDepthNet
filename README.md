@@ -13,7 +13,7 @@ Repository consists of following files:
 - car_copilot.py - imitation of real-life usage of depth estimation to estimate braking distance length
 - Dockerfile - configuration file to run the depth_estimation.py in dockerized way
 - requirements.txt - set of module requirements
-- testjpg.jpg - sample image [source]()
+- testimage.jpg - sample image [source](https://stock.adobe.com/search?k=walking+in+a+city&asset_id=265067956)
 - testvideo.mp4 - sample video [source](https://videos.pexels.com/video-files/5921059/5921059-uhd_3840_2160_30fps.mp4)
 
 # Depth Estimation Docker instruction
@@ -31,7 +31,7 @@ docker run -it --rm depth-estimator
 docker run -it --rm \
   -v $(pwd)/images:/app/images \
   depth-estimator \
-  python depth_estimation.py --image images/yourphoto.jpg
+  python depth_estimation.py
 ```
 
 You can refrain from using Docker. Install requirements.txt and run depth_estimation or car_copilot e.g.:
@@ -39,7 +39,7 @@ You can refrain from using Docker. Install requirements.txt and run depth_estima
 ```bash
 pip install -r requirements.txt
 
-python depth_estimation.py --image images/yourphoto.jpg
+python depth_estimation.py
 
 python car_copilot.py
 ```

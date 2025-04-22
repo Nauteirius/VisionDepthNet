@@ -126,7 +126,7 @@ def visualize(image, detections, depth_map):
 # 7. Main pipeline
 if __name__ == "__main__":
     # Step 1: Detection + Segmentation
-    detections, image = detect_and_segment("testjpg.jpg")
+    detections, image = detect_and_segment("testimage.jpg")
     original_shape = image.shape[:2]
     
     # Step 2: Depth model initialization
