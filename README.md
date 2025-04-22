@@ -37,3 +37,15 @@ For lightweight version of depth_estimation, replace **DPT_Large** with **MiDaS_
 
 - packages listed in requirements.txt
 - NVIDIA Container Toolkit (optional, for GPU support)
+
+## To sum up, to go further
+
+The presented solution is a sample solution of a real-life problem of pedestrian detection by autonomous vehicles. During presentation based on [slides](https://docs.google.com/presentation/d/1YlnpXRuLLBvxOmRoW507-AbpEdk_sHhxOFYxKhZmyWk/edit?usp=sharing) several ideas to broaden the topic are discussed, including improving the segmentation model to perform better in difficult conditions (**D-YOLO**) or changing the general approach from human-like perspective (realistic photos) to thermal-based ones. Recommended links:
+
+- [Real Time Human Detection by Unmanned Aerial Vehicles](https://arxiv.org/pdf/2401.03275)
+- [YOLO](https://arxiv.org/pdf/2405.14458)
+- [D-YOLO](https://arxiv.org/html/2403.09233v2)
+- [DR-YOLO](https://www.sciencedirect.com/science/article/abs/pii/S0031320324005077)
+- [RESIDE](https://arxiv.org/pdf/1712.04143)
+- [Real-Time Human Detection and Gesture Recognition for On-Board UAV Rescue](https://pmc.ncbi.nlm.nih.gov/articles/PMC8003912/?fbclid=IwY2xjawJs0G1leHRuA2FlbQIxMAABHvRCD5tTztVw_xTErkJqnPzpgtsq3Pa5uLi9FCMg_pjX4oWMEPhkK7KH83Px_aem_cWdTdmKaemBE7j7CLrxvkQ)
+- [MiDaS](https://arxiv.org/pdf/1907.01341v3)
