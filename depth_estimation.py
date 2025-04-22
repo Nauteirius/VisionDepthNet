@@ -6,7 +6,7 @@ from torchvision.transforms import Compose, Resize, ToTensor, Normalize
 from ultralytics import YOLO
 import matplotlib.pyplot as plt
 
-# 1. Calibration parameters (TO BE ADJUSTED!)
+# 1. Calibration parameters (feel free to adjust)
 SCALE_FACTOR = 1 
 CLASSES = [0, 2]     # 0 = person, 2 = car
 
