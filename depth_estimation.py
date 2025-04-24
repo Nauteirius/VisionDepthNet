@@ -7,8 +7,10 @@ from ultralytics import YOLO
 import matplotlib.pyplot as plt
 
 # 1. Calibration parameters (feel free to adjust)
-SCALE_FACTOR = 1 
-CLASSES = [0, 2]     # 0 = person, 2 = car
+SCALE_FACTOR = 0.15
+CLASSES = [0, 1, 2]     # 0 = person, 1 = bike, 2 = car
+
+FRAME_SIZE = (384, 640)
 
 # 2. Detection and segmentation function
 def detect_and_segment(image_path, conf_threshold=0.5):
@@ -40,7 +42,7 @@ def setup_depth_estimator():
     model.eval()
     
     transforms = Compose([
-        Resize(384),
+        Resize(FRAME_SIZE),
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
@@ -57,6 +59,7 @@ def estimate_depth(image, model, transforms):
         disparity = model(input_tensor)
     
     depth_map = disparity.squeeze().cpu().numpy()
+
     return depth_map * SCALE_FACTOR  # Immediate calibration
 
 # 5. Distance calculation
@@ -106,6 +109,7 @@ def visualize(image, detections, depth_map):
         # Bounding box and label
         x1, y1, x2, y2 = det["bbox"]
         cv2.rectangle(display_image, (x1, y1), (x2, y2), (0,255,0), 2)
+        print(f"{det['class']} {det['distance']:.1f}m")
         cv2.putText(display_image, f"{det['class']} {det['distance']:.1f}m", 
                    (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2)
         

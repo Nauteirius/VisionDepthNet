@@ -3,7 +3,7 @@ import random
 from depth_estimation import *
 
 FPS = 30
-FRAME_SIZE = (640, 384)
+FRAME_SIZE = (640, 448)
 
 def road_to_stop(velocity, deceleration=9.8, tire_friction=0.7):   
     effective_deceleration = deceleration * tire_friction
