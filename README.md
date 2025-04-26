@@ -33,6 +33,21 @@ You are free to use any other package management tool than **pip**.
 
 For lightweight version of depth_estimation, replace **DPT_Large** with **MiDaS_small**.
 
+## Scripts overview
+
+**depth_estimation**
+
+Prepares a distance estimation of cars, bicycles and pedestrians detected by YOLO architecture. Path to the image is set in the **main** function, defaulting to _testimage.jpg_. As an output, a pyplot diagram is returned with
+
+- bounding boxes around detected classes
+- estimated distance from the camera perspective to detected objects
+
+As estimating the absolute distance from a monocular camera is a hard task and MiDaS is not explicitly meant to provide it, a _SCALE_FACTOR_ is used to map the depth of the image to distance in meters. Feel free to play around it.
+
+**car_copilot**
+
+Covers basic the usage of distance estimation in real life example by covering frame by frame a dashcam video. The currently processed frame is temporarily available under _temp.jpg_, while in _detection.jpg_ the image with bounding boxes and distance estimations is saved (also for the time of processing the image). Having any of this files opened in IDE while executing the script gives an impression of a system working in the wild.
+
 ## Requirements
 
 - packages listed in requirements.txt
