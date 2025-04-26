@@ -21,9 +21,11 @@ def process_image(frame):
     depth_model, depth_transforms = setup_depth_estimator()
     
     depth_map = estimate_depth(image, depth_model, depth_transforms)
-    depth_map_meters = depth_map * SCALE_FACTOR
+    depth_map_meters = convert_to_meters(depth_map)
     
     detections = calculate_distances(detections, depth_map_meters, original_shape)
+
+    visualize(image, detections, depth_map_meters, save_path="detection.jpg")
 
     min_distance = float('inf')
 

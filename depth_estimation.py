@@ -7,7 +7,7 @@ from ultralytics import YOLO
 import matplotlib.pyplot as plt
 
 # 1. Calibration parameters (feel free to adjust)
-SCALE_FACTOR = 0.15
+SCALE_FACTOR = 600_000
 CLASSES = [0, 1, 2]     # 0 = person, 1 = bike, 2 = car
 
 FRAME_SIZE = (384, 640)
@@ -38,7 +38,7 @@ def detect_and_segment(image_path, conf_threshold=0.5):
 
 # 3. Depth model initialization
 def setup_depth_estimator():
-    model = torch.hub.load("intel-isl/MiDaS", "DPT_Large", pretrained=True)
+    model = torch.hub.load("intel-isl/MiDaS", "MiDaS_small", pretrained=True)
     model.eval()
     
     transforms = Compose([
@@ -60,7 +60,7 @@ def estimate_depth(image, model, transforms):
     
     depth_map = disparity.squeeze().cpu().numpy()
 
-    return depth_map * SCALE_FACTOR  # Immediate calibration
+    return depth_map  # Immediate calibration
 
 # 5. Distance calculation
 def calculate_distances(detections, depth_map, original_image_shape):
@@ -74,23 +74,29 @@ def calculate_distances(detections, depth_map, original_image_shape):
     for det in detections:
         mask = det["mask"] > 0.5
         object_depths = depth_map[mask]
-        
+
         if object_depths.size == 0:
             det["distance"] = None
             continue
-            
         # Find minimum depth
-        min_depth = np.min(object_depths)
-        det["distance"] = min_depth
+        max_depth = np.max(object_depths)
+        average_depth = np.mean(object_depths)
+        det["distance"] = average_depth
         
         # Find position of closest point
-        y, x = np.where((depth_map == min_depth) & mask)
+        y, x = np.where((depth_map == max_depth) & mask)
         det["closest_point"] = (x[0], y[0]) if len(x) > 0 else None
     
     return detections
 
+# 5.1 Convert depth map to meters
+def convert_to_meters(depth_map):
+
+    depth_map_meters = SCALE_FACTOR / (depth_map * depth_map)
+    return depth_map_meters
+
 # 6. Visualization
-def visualize(image, detections, depth_map):
+def visualize(image, detections, depth_map, save_path="outputx.jpg"):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10))
     
     # Image with masks and bounding boxes
@@ -118,14 +124,19 @@ def visualize(image, detections, depth_map):
             x, y = det["closest_point"]
             cv2.circle(display_image, (x, y), 8, (255,0,0), -1)
     
-    ax1.imshow(display_image)
-    ax1.set_title("Detections with masks and distances")
+    if save_path:
+        cv2.imwrite(save_path, display_image)
+
+    else:
+
+        ax1.imshow(display_image)
+        ax1.set_title("Detections with masks and distances")
     
-    # Depth map display
-    ax2.imshow(depth_map, cmap="plasma")
-    ax2.set_title("Depth map")
-    
-    plt.show()
+        # Depth map display
+        ax2.imshow(depth_map, cmap="plasma")
+        ax2.set_title("Depth map")
+        
+        plt.show()
 
 # 7. Main pipeline
 if __name__ == "__main__":
@@ -138,7 +149,7 @@ if __name__ == "__main__":
     
     # Step 3: Depth estimation
     depth_map = estimate_depth(image, depth_model, depth_transforms)
-    depth_map_meters = depth_map * SCALE_FACTOR
+    depth_map_meters = convert_to_meters(depth_map)
     
     # Step 4: Distance calculations
     detections = calculate_distances(detections, depth_map_meters, original_shape)
