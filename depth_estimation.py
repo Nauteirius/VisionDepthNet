@@ -96,7 +96,7 @@ def convert_to_meters(depth_map):
     return depth_map_meters
 
 # 6. Visualization
-def visualize(image, detections, depth_map, save_path="outputx.jpg"):
+def visualize(image, detections, depth_map, save_path=None):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10))
     
     # Image with masks and bounding boxes
