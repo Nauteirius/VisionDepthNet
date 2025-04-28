@@ -155,4 +155,4 @@ if __name__ == "__main__":
     detections = calculate_distances(detections, depth_map_meters, original_shape)
     
     # Step 5: Visualization
-    visualize(image, detections, depth_map_meters)
+    visualize(image, detections, depth_map)
